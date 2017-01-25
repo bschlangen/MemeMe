@@ -91,6 +91,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="actionButton" destination="wS9-z9-Y8H" id="J2h-5l-bjd"/>
                         <outlet property="bottomTextField" destination="HJf-qW-kBT" id="qZ6-zm-PSB"/>
                         <outlet property="cameraButton" destination="y8j-4d-tmh" id="yc2-f8-YWq"/>
                         <outlet property="imageView" destination="u5q-Eu-rHo" id="hjC-8M-8MF"/>

@@ -12,13 +12,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     UITextFieldDelegate {
 
     // Mark: OUTLETS
-    @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var topTextField: UITextField!
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var actionButton: UIBarButtonItem!
     var memedImage: UIImage!
     var meme: Meme!
+
     
     struct Meme {
         var topText = "TOP"
@@ -83,6 +84,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         setupTextField(topTextField)
         setupTextField(bottomTextField)
+        
+        actionButton.isEnabled = false
     }
     
     
@@ -107,13 +110,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     // Callback for image picker selection
     func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        print("selected an image in picker")
         
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageView.image = image
             imageView.contentMode = .scaleAspectFit
         }
         dismiss(animated: true, completion: nil)
+        actionButton.isEnabled = true
+        print("selected an image in picker")
     }
     
     // Callback for image picker cancellation
