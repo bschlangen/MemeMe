@@ -41,19 +41,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(shareController, animated: true, completion: nil)
     }
     
-    @IBAction func pickAnImage(_ sender: Any) {
+    @IBAction func pickAnImage(_ sender: UIButton) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
+        if sender.tag == 0 {
+            // select image from photo library
+            pickerController.sourceType = .photoLibrary
+        }
+        else {
+            // Use Camera
+            pickerController.sourceType = .camera
+        }
         present(pickerController, animated: true, completion: nil)
     }
     
-    @IBAction func takeAnImage(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        present(imagePicker, animated: true, completion: nil)
+    func setupTextField(_ textField: UITextField){
+        // Setup the text for the text views
+        let textAttributes : [String:Any] = [
+            NSStrokeColorAttributeName: UIColor.black,
+            NSForegroundColorAttributeName: UIColor.white,
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSStrokeWidthAttributeName: 4.0
+        ]
+        
+        textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
+        
+        textField.defaultTextAttributes = textAttributes
+        
+        // Assign the text field delegates
+        textField.delegate = self
     }
-    
     
     // Mark: OVERRIDDEN METHODS
     override func viewDidLoad() {
@@ -62,30 +80,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topTextField.text = "TOP"
         bottomTextField.text = "BOTTOM"
         
-        // Center the text fields
-        topTextField.textAlignment = .center
-        bottomTextField.textAlignment = .center
-        
-        topTextField.adjustsFontSizeToFitWidth = true
-        bottomTextField.adjustsFontSizeToFitWidth = true
+        setupTextField(topTextField)
+        setupTextField(bottomTextField)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Setup the text for the text views
-        let textAttributes : [String:Any] = [
-            NSStrokeColorAttributeName: UIColor.black,
-            NSForegroundColorAttributeName: UIColor.white,
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: 4.0
-        ]
-        topTextField.defaultTextAttributes = textAttributes
-        bottomTextField.defaultTextAttributes = textAttributes
-                
-        // Assign the text field delegates
-        self.topTextField.delegate = self
-        self.bottomTextField.delegate = self
         
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         
@@ -94,9 +95,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func textfieldActivated(_ sender: UITextField) {
         if sender.text == "TOP" || sender.text == "BOTTOM" {
-         sender.text = ""
+         sender.text = " "
         }
-
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -155,7 +155,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
      */
     // Prepare the views/textfields for the keyboard to slide up
     func keyboardWillShow(_ notification:Notification) {
-        view.frame.origin.y = 0 - getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder {
+            view.frame.origin.y = 0 - getKeyboardHeight(notification)
+        }
     }
     
     func keyboardWillHide(_ notification: Notification) {
