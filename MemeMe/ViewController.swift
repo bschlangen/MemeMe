@@ -41,6 +41,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(shareController, animated: true, completion: nil)
     }
     
+    
     @IBAction func pickAnImage(_ sender: UIButton) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
@@ -60,14 +61,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let textAttributes : [String:Any] = [
             NSStrokeColorAttributeName: UIColor.black,
             NSForegroundColorAttributeName: UIColor.white,
+            
             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: 4.0
+            NSStrokeWidthAttributeName: -4.0
         ]
-        
+      
+        textField.defaultTextAttributes = textAttributes
         textField.textAlignment = .center
         textField.adjustsFontSizeToFitWidth = true
-        
-        textField.defaultTextAttributes = textAttributes
         
         // Assign the text field delegates
         textField.delegate = self
